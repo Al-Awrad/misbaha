@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسبحة - Misbaha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .dark .app-header {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .app-title {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .sibha-selector {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .sibha-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sibha-option:hover, .sibha-option.active {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .misbaha-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin-top: 80px;
+            cursor: pointer;
+        }
+
+        .string {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 350px;
+            background: linear-gradient(to bottom, #8B4513, #A0522D);
+            transform: translate(-50%, -50%);
+            border-radius: 1px;
+            z-index: 1;
+        }
+
+        .bead {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+
+        .bead:hover {
+            transform: scale(1.2);
+        }
+
+        .bead.active {
+            animation: beadPulse 0.6s ease-out;
+            transform: scale(1.3);
+        }
+
+        .large-bead {
+            width: 30px;
+            height: 30px;
+        }
+
+        .counter-display {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .dark .counter-display {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .counter-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .counter-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .reset-btn {
+            background: #ff4757;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .reset-btn:hover {
+            background: #ff3742;
+            transform: scale(1.05);
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 1s ease-out forwards;
+        }
+
+        @keyframes beadPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
+            100% { transform: scale(1.1); }
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.5);
+            }
+        }
+
+        .progress-ring {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 100px;
+        }
+
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        /* Sibha Styles */
+        .classic-wood {
+            background: radial-gradient(circle, #8B4513, #654321);
+        }
+
+        .marble-white {
+            background: radial-gradient(circle, #f8f9fa, #e9ecef);
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
+        }
+
+        .jade-green {
+            background: radial-gradient(circle, #2d5016, #4a7c59);
+        }
+
+        .pearl-white {
+            background: radial-gradient(circle, #ffffff, #f1f3f4);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .amber-gold {
+            background: radial-gradient(circle, #ffb300, #ff8f00);
+        }
+
+        .obsidian-black {
+            background: radial-gradient(circle, #212529, #000000);
+        }
+
+        .coral-red {
+            background: radial-gradient(circle, #dc3545, #c82333);
+        }
+
+        .turquoise-blue {
+            background: radial-gradient(circle, #17a2b8, #138496);
+        }
+
+        .amethyst-purple {
+            background: radial-gradient(circle, #6f42c1, #5a32a3);
+        }
+
+        .silver-metallic {
+            background: radial-gradient(circle, #dee2e6, #adb5bd);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .misbaha-container {
+                width: 250px;
+                height: 350px;
+            }
+            
+            .counter-display {
+                position: fixed;
+                bottom: 80px;
+                right: 50%;
+                top: auto;
+                transform: translateX(50%);
+            }
+            
+            .progress-ring {
+                position: fixed;
+                bottom: 80px;
+                left: 50%;
+                top: auto;
+                transform: translateX(-50%);
+                margin-left: -140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-header">
+        <div class="app-title">مسبحة إلكترونية</div>
+        <div class="controls">
+            <button class="control-btn" id="soundToggle">🔊</button>
+            <button class="control-btn" id="themeToggle">🌙</button>
+        </div>
+    </div>
+
+    <div class="misbaha-container" id="misbahaContainer">
+        <div class="string"></div>
+    </div>
+
+    <div class="counter-display">
+        <div class="counter-number" id="counterNumber">0</div>
+        <div class="counter-label">التسبيحات</div>
+        <button class="reset-btn" id="resetBtn">إعادة تعيين</button>
+    </div>
+
+    <svg class="progress-ring">
+        <circle
+            class="progress-ring-circle"
+            stroke="rgba(255,255,255,0.3)"
+            stroke-width="4"
+            fill="transparent"
+            r="46"
+            cx="50"
+            cy="50"
+            stroke-dasharray="289"
+            stroke-dashoffset="289"
+            id="progressCircle"/>
+    </svg>
+
+    <div class="sibha-selector">
+        <div class="sibha-option classic-wood active" data-type="classic-wood" title="خشب كلاسيكي"></div>
+        <div class="sibha-option marble-white" data-type="marble-white" title="رخام أبيض"></div>
+        <div class="sibha-option jade-green" data-type="jade-green" title="أخضر يشم"></div>
+        <div class="sibha-option pearl-white" data-type="pearl-white" title="لؤلؤ أبيض"></div>
+        <div class="sibha-option amber-gold" data-type="amber-gold" title="كهرماني ذهبي"></div>
+        <div class="sibha-option obsidian-black" data-type="obsidian-black" title="أسود أوبسيديان"></div>
+        <div class="sibha-option coral-red" data-type="coral-red" title="أحمر مرجاني"></div>
+        <div class="sibha-option turquoise-blue" data-type="turquoise-blue" title="أزرق فيروزي"></div>
+        <div class="sibha-option amethyst-purple" data-type="amethyst-purple" title="بنفسجي جمشت"></div>
+        <div class="sibha-option silver-metallic" data-type="silver-metallic" title="فضي معدني"></div>
+    </div>
+
+    <script>
+        class MisbahaApp {
+            constructor() {
+                this.count = 0;
+                this.soundEnabled = true;
+                this.darkMode = false;
+                this.currentSibhaType = 'classic-wood';
+                this.beads = [];
+                
+                this.init();
+            }
+
+            init() {
+                this.setupTheme();
+                this.createBeads();
+                this.setupEventListeners();
+                this.updateCounter();
+                this.updateSibhaSelection();
+                this.updateSoundIcon();
+            }
+
+            setupTheme() {
+                if (this.darkMode) {
+                    document.body.classList.add('dark');
+                }
+            }
+
+            createBeads() {
+                const container = document.getElementById('misbahaContainer');
+                // Clear existing beads
+                this.beads.forEach(bead => bead.remove());
+                this.beads = [];
+
+                const totalBeads = 33;
+                const centerX = 150;
+                const centerY = 200;
+                const radiusX = 80;
+                const radiusY = 140;
+
+                for (let i = 0; i < totalBeads; i++) {
+                    const angle = (i / totalBeads) * 2 * Math.PI;
+                    const x = centerX + radiusX * Math.cos(angle);
+                    const y = centerY + radiusY * Math.sin(angle);
+
+                    const bead = document.createElement('div');
+                    bead.className = `bead ${this.currentSibhaType}`;
+                    
+                    // Make every 11th bead larger (Islamic tradition)
+                    if ((i + 1) % 11 === 0) {
+                        bead.classList.add('large-bead');
+                    }
+
+                    bead.style.left = `${x - 10}px`;
+                    bead.style.top = `${y - 10}px`;
+                    bead.dataset.index = i;
+
+                    container.appendChild(bead);
+                    this.beads.push(bead);
+                }
+            }
+
+            setupEventListeners() {
+                // Click anywhere on the misbaha container
+                document.getElementById('misbahaContainer').addEventListener('click', (e) => {
+                    this.handleBeadClick(e);
+                });
+
+                // Reset button
+                document.getElementById('resetBtn').addEventListener('click', () => {
+                    this.resetCounter();
+                });
+
+                // Sound toggle
+                document.getElementById('soundToggle').addEventListener('click', () => {
+                    this.toggleSound();
+                });
+
+                // Theme toggle
+                document.getElementById('themeToggle').addEventListener('click', () => {
+                    this.toggleTheme();
+                });
+
+                // Sibha type selection
+                document.querySelectorAll('.sibha-option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        this.changeSibhaType(option.dataset.type);
+                    });
+                });
+
+                // Keyboard support
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.handleBeadClick();
+                    }
+                });
+            }
+
+            handleBeadClick(e) {
+                this.count++;
+                this.updateCounter();
+                this.playSound();
+                this.createParticles(e);
+                this.animateBeads();
+                this.updateProgress();
+            }
+
+            animateBeads() {
+                // Animate a random bead or the next bead in sequence
+                const beadIndex = this.count % this.beads.length;
+                const bead = this.beads[beadIndex];
+                
+                bead.classList.add('active');
+                setTimeout(() => {
+                    bead.classList.remove('active');
+                }, 600);
+            }
+
+            createParticles(e) {
+                if (!e) return;
+                
+                const rect = document.getElementById('misbahaContainer').getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                for (let i = 0; i < 6; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    
+                    // Random direction
+                    const angle = (Math.PI * 2 * i) / 6;
+                    const distance = 30 + Math.random() * 20;
+                    particle.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+                    particle.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
+
+                    document.getElementById('misbahaContainer').appendChild(particle);
+
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 1000);
+                }
+            }
+
+            playSound() {
+                if (!this.soundEnabled) return;
+
+                // Create audio context and play a bead sound
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                } catch (error) {
+                    console.log('Audio not supported');
+                }
+            }
+
+            updateCounter() {
+                document.getElementById('counterNumber').textContent = this.count;
+            }
+
+            updateProgress() {
+                const circle = document.getElementById('progressCircle');
+                const circumference = 2 * Math.PI * 46;
+                const progress = (this.count % 33) / 33;
+                const offset = circumference - (progress * circumference);
+                circle.style.strokeDashoffset = offset;
+            }
+
+            resetCounter() {
+                this.count = 0;
+                this.updateCounter();
+                this.updateProgress();
+                
+                // Animate all beads
+                this.beads.forEach((bead, index) => {
+                    setTimeout(() => {
+                        bead.classList.add('active');
+                        setTimeout(() => {
+                            bead.classList.remove('active');
+                        }, 100);
+                    }, index * 20);
+                });
+            }
+
+            toggleSound() {
+                this.soundEnabled = !this.soundEnabled;
+                this.updateSoundIcon();
+            }
+
+            updateSoundIcon() {
+                const btn = document.getElementById('soundToggle');
+                btn.textContent = this.soundEnabled ? '🔊' : '🔇';
+            }
+
+            toggleTheme() {
+                this.darkMode = !this.darkMode;
+                document.body.classList.toggle('dark');
+                
+                const btn = document.getElementById('themeToggle');
+                btn.textContent = this.darkMode ? '☀️' : '🌙';
+            }
+
+            changeSibhaType(type) {
+                this.currentSibhaType = type;
+                this.updateSibhaSelection();
+                this.createBeads();
+            }
+
+            updateSibhaSelection() {
+                document.querySelectorAll('.sibha-option').forEach(option => {
+                    option.classList.remove('active');
+                    if (option.dataset.type === this.currentSibhaType) {
+                        option.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new MisbahaApp();
+        });
+    </script>
+</body>
+</html>
