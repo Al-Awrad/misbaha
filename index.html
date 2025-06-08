@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -21,7 +21,7 @@
             justify-content: center;
             transition: all 0.3s ease;
             user-select: none;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         body.dark {
@@ -112,18 +112,6 @@
             cursor: pointer;
         }
 
-        .string {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 2px;
-            height: 350px;
-            background: linear-gradient(to bottom, #8B4513, #A0522D);
-            transform: translate(-50%, -50%);
-            border-radius: 1px;
-            z-index: 1;
-        }
-
         .bead {
             position: absolute;
             width: 20px;
@@ -151,33 +139,34 @@
 
         .counter-display {
             position: fixed;
-            top: 50%;
+            top: 120px;
             right: 20px;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
-            color: white;
+            color: #2d5016;
             text-align: center;
-            min-width: 120px;
+            min-width: 100px;
+            font-weight: bold;
         }
 
         .dark .counter-display {
             background: rgba(0, 0, 0, 0.3);
+            color: white;
         }
 
         .counter-number {
-            font-size: 48px;
+            font-size: 36px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .counter-label {
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.8;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .reset-btn {
@@ -225,11 +214,10 @@
 
         .progress-ring {
             position: fixed;
-            top: 50%;
+            top: 120px;
             left: 20px;
-            transform: translateY(-50%);
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
         }
 
         .progress-ring-circle {
@@ -284,25 +272,99 @@
 
         @media (max-width: 768px) {
             .misbaha-container {
-                width: 250px;
+                width: 280px;
                 height: 350px;
+                margin-top: 60px;
             }
             
             .counter-display {
                 position: fixed;
-                bottom: 80px;
-                right: 50%;
                 top: auto;
-                transform: translateX(50%);
+                bottom: 120px;
+                right: 20px;
+                left: auto;
+                transform: none;
+                padding: 12px;
+                min-width: 80px;
+            }
+
+            .counter-number {
+                font-size: 28px;
+                margin-bottom: 5px;
+            }
+
+            .counter-label {
+                font-size: 10px;
+                margin-bottom: 8px;
             }
             
             .progress-ring {
                 position: fixed;
-                bottom: 80px;
-                left: 50%;
                 top: auto;
+                bottom: 120px;
+                left: 20px;
+                right: auto;
+                transform: none;
+                width: 60px;
+                height: 60px;
+            }
+
+            .sibha-selector {
+                bottom: 10px;
+                left: 50%;
                 transform: translateX(-50%);
-                margin-left: -140px;
+                max-width: 90vw;
+                padding: 0 10px;
+            }
+
+            .sibha-option {
+                width: 35px;
+                height: 35px;
+                margin: 2px;
+            }
+
+            .app-header {
+                padding: 10px 15px;
+            }
+
+            .app-title {
+                font-size: 20px;
+            }
+
+            .control-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .bead {
+                width: 18px;
+                height: 18px;
+            }
+
+            .large-bead {
+                width: 25px;
+                height: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .misbaha-container {
+                width: 250px;
+                height: 320px;
+                margin-top: 50px;
+            }
+
+            .counter-display, .progress-ring {
+                bottom: 100px;
+            }
+
+            .sibha-selector {
+                gap: 8px;
+            }
+
+            .sibha-option {
+                width: 30px;
+                height: 30px;
             }
         }
     </style>
@@ -317,7 +379,6 @@
     </div>
 
     <div class="misbaha-container" id="misbahaContainer">
-        <div class="string"></div>
     </div>
 
     <div class="counter-display">
@@ -329,14 +390,14 @@
     <svg class="progress-ring">
         <circle
             class="progress-ring-circle"
-            stroke="rgba(255,255,255,0.3)"
-            stroke-width="4"
+            stroke="rgba(45,80,22,0.4)"
+            stroke-width="3"
             fill="transparent"
-            r="46"
-            cx="50"
-            cy="50"
-            stroke-dasharray="289"
-            stroke-dashoffset="289"
+            r="36"
+            cx="40"
+            cy="40"
+            stroke-dasharray="226"
+            stroke-dashoffset="226"
             id="progressCircle"/>
     </svg>
 
@@ -501,7 +562,7 @@
             playSound() {
                 if (!this.soundEnabled) return;
 
-                // Create audio context and play a bead sound
+                // Create a more realistic click sound
                 try {
                     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     const oscillator = audioContext.createOscillator();
@@ -510,14 +571,15 @@
                     oscillator.connect(gainNode);
                     gainNode.connect(audioContext.destination);
 
-                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-                    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+                    // Quick click sound - higher frequency, shorter duration
+                    oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.02);
 
-                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
 
                     oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.1);
+                    oscillator.stop(audioContext.currentTime + 0.05);
                 } catch (error) {
                     console.log('Audio not supported');
                 }
@@ -529,7 +591,7 @@
 
             updateProgress() {
                 const circle = document.getElementById('progressCircle');
-                const circumference = 2 * Math.PI * 46;
+                const circumference = 2 * Math.PI * 36;
                 const progress = (this.count % 33) / 33;
                 const offset = circumference - (progress * circumference);
                 circle.style.strokeDashoffset = offset;
