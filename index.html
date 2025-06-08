@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -22,10 +22,7 @@
             transition: all 0.3s ease;
             user-select: none;
             overflow-x: hidden;
-        }
-
-        body.dark {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding-top: 60px;
         }
 
         .app-header {
@@ -33,17 +30,13 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-        }
-
-        .dark .app-header {
-            background: rgba(0, 0, 0, 0.3);
         }
 
         .app-title {
@@ -108,7 +101,7 @@
             position: relative;
             width: 300px;
             height: 400px;
-            margin-top: 80px;
+            margin-top: 20px;
             cursor: pointer;
         }
 
@@ -139,21 +132,16 @@
 
         .counter-display {
             position: fixed;
-            top: 120px;
+            top: 80px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             padding: 15px;
             border-radius: 15px;
-            color: #2d5016;
+            color: white;
             text-align: center;
             min-width: 100px;
             font-weight: bold;
-        }
-
-        .dark .counter-display {
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
         }
 
         .counter-number {
@@ -214,7 +202,7 @@
 
         .progress-ring {
             position: fixed;
-            top: 120px;
+            top: 80px;
             left: 20px;
             width: 80px;
             height: 80px;
@@ -226,31 +214,18 @@
             transform-origin: 50% 50%;
         }
 
-        /* Sibha Styles */
-        .classic-wood {
-            background: radial-gradient(circle, #8B4513, #654321);
-        }
-
-        .marble-white {
-            background: radial-gradient(circle, #f8f9fa, #e9ecef);
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
+        /* Sibha Styles - Limited to 6 colors */
+        .pearl-white {
+            background: radial-gradient(circle, #ffffff, #f1f3f4);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
         }
 
         .jade-green {
             background: radial-gradient(circle, #2d5016, #4a7c59);
         }
 
-        .pearl-white {
-            background: radial-gradient(circle, #ffffff, #f1f3f4);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-        }
-
         .amber-gold {
             background: radial-gradient(circle, #ffb300, #ff8f00);
-        }
-
-        .obsidian-black {
-            background: radial-gradient(circle, #212529, #000000);
         }
 
         .coral-red {
@@ -261,20 +236,19 @@
             background: radial-gradient(circle, #17a2b8, #138496);
         }
 
-        .amethyst-purple {
-            background: radial-gradient(circle, #6f42c1, #5a32a3);
-        }
-
-        .silver-metallic {
-            background: radial-gradient(circle, #dee2e6, #adb5bd);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        .classic-wood {
+            background: radial-gradient(circle, #8B4513, #654321);
         }
 
         @media (max-width: 768px) {
+            body {
+                padding-top: 50px;
+            }
+
             .misbaha-container {
                 width: 280px;
                 height: 350px;
-                margin-top: 60px;
+                margin-top: 10px;
             }
             
             .counter-display {
@@ -351,7 +325,7 @@
             .misbaha-container {
                 width: 250px;
                 height: 320px;
-                margin-top: 50px;
+                margin-top: 5px;
             }
 
             .counter-display, .progress-ring {
@@ -374,7 +348,6 @@
         <div class="app-title">مسبحة إلكترونية</div>
         <div class="controls">
             <button class="control-btn" id="soundToggle">🔊</button>
-            <button class="control-btn" id="themeToggle">🌙</button>
         </div>
     </div>
 
@@ -402,16 +375,12 @@
     </svg>
 
     <div class="sibha-selector">
-        <div class="sibha-option classic-wood active" data-type="classic-wood" title="خشب كلاسيكي"></div>
-        <div class="sibha-option marble-white" data-type="marble-white" title="رخام أبيض"></div>
+        <div class="sibha-option pearl-white active" data-type="pearl-white" title="لؤلؤ أبيض"></div>
         <div class="sibha-option jade-green" data-type="jade-green" title="أخضر يشم"></div>
-        <div class="sibha-option pearl-white" data-type="pearl-white" title="لؤلؤ أبيض"></div>
         <div class="sibha-option amber-gold" data-type="amber-gold" title="كهرماني ذهبي"></div>
-        <div class="sibha-option obsidian-black" data-type="obsidian-black" title="أسود أوبسيديان"></div>
         <div class="sibha-option coral-red" data-type="coral-red" title="أحمر مرجاني"></div>
         <div class="sibha-option turquoise-blue" data-type="turquoise-blue" title="أزرق فيروزي"></div>
-        <div class="sibha-option amethyst-purple" data-type="amethyst-purple" title="بنفسجي جمشت"></div>
-        <div class="sibha-option silver-metallic" data-type="silver-metallic" title="فضي معدني"></div>
+        <div class="sibha-option classic-wood" data-type="classic-wood" title="خشب كلاسيكي"></div>
     </div>
 
     <script>
@@ -419,26 +388,29 @@
             constructor() {
                 this.count = 0;
                 this.soundEnabled = true;
-                this.darkMode = false;
-                this.currentSibhaType = 'classic-wood';
+                this.currentSibhaType = 'pearl-white';
                 this.beads = [];
+                this.audioContext = null;
                 
                 this.init();
             }
 
             init() {
-                this.setupTheme();
                 this.createBeads();
                 this.setupEventListeners();
                 this.updateCounter();
                 this.updateSibhaSelection();
                 this.updateSoundIcon();
+                this.initAudio();
             }
 
-            setupTheme() {
-                if (this.darkMode) {
-                    document.body.classList.add('dark');
-                }
+            initAudio() {
+                // Initialize audio context on first user interaction
+                document.addEventListener('click', () => {
+                    if (!this.audioContext) {
+                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                }, { once: true });
             }
 
             createBeads() {
@@ -489,11 +461,6 @@
                 // Sound toggle
                 document.getElementById('soundToggle').addEventListener('click', () => {
                     this.toggleSound();
-                });
-
-                // Theme toggle
-                document.getElementById('themeToggle').addEventListener('click', () => {
-                    this.toggleTheme();
                 });
 
                 // Sibha type selection
@@ -560,28 +527,34 @@
             }
 
             playSound() {
-                if (!this.soundEnabled) return;
+                if (!this.soundEnabled || !this.audioContext) return;
 
-                // Create a more realistic click sound
                 try {
-                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
+                    // Resume audio context if suspended
+                    if (this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+
+                    const oscillator = this.audioContext.createOscillator();
+                    const gainNode = this.audioContext.createGain();
 
                     oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
+                    gainNode.connect(this.audioContext.destination);
 
                     // Quick click sound - higher frequency, shorter duration
-                    oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
-                    oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.02);
+                    oscillator.frequency.setValueAtTime(1200, this.audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(800, this.audioContext.currentTime + 0.02);
 
-                    gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+                    gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.05);
 
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.05);
+                    oscillator.start(this.audioContext.currentTime);
+                    oscillator.stop(this.audioContext.currentTime + 0.05);
                 } catch (error) {
-                    console.log('Audio not supported');
+                    console.log('Audio error:', error);
+                    // Reinitialize audio context if there's an error
+                    this.audioContext = null;
+                    this.initAudio();
                 }
             }
 
@@ -621,14 +594,6 @@
             updateSoundIcon() {
                 const btn = document.getElementById('soundToggle');
                 btn.textContent = this.soundEnabled ? '🔊' : '🔇';
-            }
-
-            toggleTheme() {
-                this.darkMode = !this.darkMode;
-                document.body.classList.toggle('dark');
-                
-                const btn = document.getElementById('themeToggle');
-                btn.textContent = this.darkMode ? '☀️' : '🌙';
             }
 
             changeSibhaType(type) {
