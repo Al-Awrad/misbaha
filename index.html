@@ -19,10 +19,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
             user-select: none;
             overflow-x: hidden;
-            padding-top: 60px;
+            color: white;
         }
 
         .app-header {
@@ -46,13 +45,7 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        .controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .control-btn {
+        .sound-btn {
             background: rgba(255, 255, 255, 0.2);
             border: none;
             color: white;
@@ -63,71 +56,9 @@
             font-size: 14px;
         }
 
-        .control-btn:hover {
+        .sound-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
-        }
-
-        .sibha-selector {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .sibha-option {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sibha-option:hover, .sibha-option.active {
-            transform: scale(1.1);
-            border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-        }
-
-        .misbaha-container {
-            position: relative;
-            width: 300px;
-            height: 400px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-
-        .bead {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            z-index: 2;
-        }
-
-        .bead:hover {
-            transform: scale(1.2);
-        }
-
-        .bead.active {
-            animation: beadPulse 0.6s ease-out;
-            transform: scale(1.3);
-        }
-
-        .large-bead {
-            width: 30px;
-            height: 30px;
         }
 
         .counter-display {
@@ -138,10 +69,10 @@
             backdrop-filter: blur(10px);
             padding: 15px;
             border-radius: 15px;
-            color: white;
             text-align: center;
             min-width: 100px;
             font-weight: bold;
+            z-index: 100;
         }
 
         .counter-number {
@@ -161,16 +92,73 @@
             background: #ff4757;
             border: none;
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 15px;
             cursor: pointer;
+            font-size: 11px;
             transition: all 0.3s ease;
-            font-size: 12px;
         }
 
         .reset-btn:hover {
             background: #ff3742;
             transform: scale(1.05);
+        }
+
+        .progress-ring {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .progress-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .misbaha-container {
+            position: relative;
+            width: 280px;
+            height: 350px;
+            margin-top: 80px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bead {
+            position: absolute;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .bead:hover {
+            transform: scale(1.2);
+        }
+
+        .bead.active {
+            animation: beadPulse 0.6s ease-out;
+            transform: scale(1.3);
+        }
+
+        .bead.counting {
+            width: 16px;
+            height: 16px;
+        }
+
+        .bead.separator {
+            opacity: 0.6;
+            cursor: default;
+            background: radial-gradient(circle, #6b7280, #4b5563) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .bead.separator:hover {
+            transform: none;
         }
 
         .particle {
@@ -183,41 +171,37 @@
             animation: particleFloat 1s ease-out forwards;
         }
 
-        @keyframes beadPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.4); box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
-            100% { transform: scale(1.1); }
-        }
-
-        @keyframes particleFloat {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100px) scale(0.5);
-            }
-        }
-
-        .progress-ring {
+        .sibha-selector {
             position: fixed;
-            top: 80px;
-            left: 20px;
-            width: 80px;
-            height: 80px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 1000;
         }
 
-        .progress-ring-circle {
-            transition: stroke-dashoffset 0.35s;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
+        .sibha-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        /* Sibha Styles - Limited to 6 colors */
+        .sibha-option:hover, .sibha-option.active {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Bead Colors */
         .pearl-white {
             background: radial-gradient(circle, #ffffff, #f1f3f4);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
         }
 
         .jade-green {
@@ -240,105 +224,55 @@
             background: radial-gradient(circle, #8B4513, #654321);
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding-top: 50px;
-            }
+        @keyframes beadPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
+            100% { transform: scale(1.1); }
+        }
 
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.5);
+            }
+        }
+
+        @media (max-width: 768px) {
             .misbaha-container {
-                width: 280px;
-                height: 350px;
-                margin-top: 10px;
+                width: 250px;
+                height: 320px;
+                margin-top: 60px;
             }
             
             .counter-display {
-                position: fixed;
                 top: auto;
-                bottom: 120px;
+                bottom: 100px;
                 right: 20px;
-                left: auto;
-                transform: none;
                 padding: 12px;
                 min-width: 80px;
             }
 
             .counter-number {
                 font-size: 28px;
-                margin-bottom: 5px;
-            }
-
-            .counter-label {
-                font-size: 10px;
-                margin-bottom: 8px;
             }
             
             .progress-ring {
-                position: fixed;
                 top: auto;
-                bottom: 120px;
+                bottom: 100px;
                 left: 20px;
-                right: auto;
-                transform: none;
-                width: 60px;
-                height: 60px;
-            }
-
-            .sibha-selector {
-                bottom: 10px;
-                left: 50%;
-                transform: translateX(-50%);
-                max-width: 90vw;
-                padding: 0 10px;
             }
 
             .sibha-option {
-                width: 35px;
-                height: 35px;
-                margin: 2px;
-            }
-
-            .app-header {
-                padding: 10px 15px;
+                width: 28px;
+                height: 28px;
             }
 
             .app-title {
-                font-size: 20px;
-            }
-
-            .control-btn {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-
-            .bead {
-                width: 18px;
-                height: 18px;
-            }
-
-            .large-bead {
-                width: 25px;
-                height: 25px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .misbaha-container {
-                width: 250px;
-                height: 320px;
-                margin-top: 5px;
-            }
-
-            .counter-display, .progress-ring {
-                bottom: 100px;
-            }
-
-            .sibha-selector {
-                gap: 8px;
-            }
-
-            .sibha-option {
-                width: 30px;
-                height: 30px;
+                font-size: 18px;
             }
         }
     </style>
@@ -346,12 +280,7 @@
 <body>
     <div class="app-header">
         <div class="app-title">مسبحة إلكترونية</div>
-        <div class="controls">
-            <button class="control-btn" id="soundToggle">🔊</button>
-        </div>
-    </div>
-
-    <div class="misbaha-container" id="misbahaContainer">
+        <button class="sound-btn" id="soundToggle">🔊</button>
     </div>
 
     <div class="counter-display">
@@ -360,19 +289,22 @@
         <button class="reset-btn" id="resetBtn">إعادة تعيين</button>
     </div>
 
-    <svg class="progress-ring">
+    <svg class="progress-ring" width="70" height="70">
         <circle
-            class="progress-ring-circle"
-            stroke="rgba(45,80,22,0.4)"
+            class="progress-circle"
+            stroke="rgba(255,255,255,0.3)"
             stroke-width="3"
             fill="transparent"
-            r="36"
-            cx="40"
-            cy="40"
-            stroke-dasharray="226"
-            stroke-dashoffset="226"
+            r="30"
+            cx="35"
+            cy="35"
+            stroke-dasharray="188"
+            stroke-dashoffset="188"
             id="progressCircle"/>
     </svg>
+
+    <div class="misbaha-container" id="misbahaContainer">
+    </div>
 
     <div class="sibha-selector">
         <div class="sibha-option pearl-white active" data-type="pearl-white" title="لؤلؤ أبيض"></div>
@@ -400,30 +332,35 @@
                 this.setupEventListeners();
                 this.updateCounter();
                 this.updateSibhaSelection();
-                this.updateSoundIcon();
                 this.initAudio();
             }
 
             initAudio() {
-                // Initialize audio context on first user interaction
                 document.addEventListener('click', () => {
                     if (!this.audioContext) {
-                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        try {
+                            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        } catch (error) {
+                            console.log('Audio not supported');
+                        }
                     }
                 }, { once: true });
             }
 
             createBeads() {
                 const container = document.getElementById('misbahaContainer');
-                // Clear existing beads
-                this.beads.forEach(bead => bead.remove());
+                container.innerHTML = '';
                 this.beads = [];
+                this.countingBeads = []; // Only the beads that get counted
 
-                const totalBeads = 33;
-                const centerX = 150;
-                const centerY = 200;
-                const radiusX = 80;
-                const radiusY = 140;
+                // Create traditional misbaha: 3 groups of 11 + 3 separators = 36 total beads
+                const totalBeads = 36; // 33 counting beads + 3 separator beads
+                const centerX = 140;
+                const centerY = 175;
+                const radiusX = 70;
+                const radiusY = 120;
+
+                let countingIndex = 0; // Track counting beads separately
 
                 for (let i = 0; i < totalBeads; i++) {
                     const angle = (i / totalBeads) * 2 * Math.PI;
@@ -433,14 +370,28 @@
                     const bead = document.createElement('div');
                     bead.className = `bead ${this.currentSibhaType}`;
                     
-                    // Make every 11th bead larger (Islamic tradition)
-                    if ((i + 1) % 11 === 0) {
-                        bead.classList.add('large-bead');
+                    // Separator beads at positions 11, 23, 35 (after each group of 11)
+                    const isSeparator = (i === 11 || i === 23 || i === 35);
+                    
+                    if (isSeparator) {
+                        // Oval/flat separator bead - smaller and flatter
+                        bead.classList.add('separator');
+                        bead.style.width = '16px';
+                        bead.style.height = '8px';
+                        bead.style.borderRadius = '8px';
+                        bead.style.left = `${x - 8}px`;
+                        bead.style.top = `${y - 4}px`;
+                        bead.style.opacity = '0.6';
+                        bead.dataset.separator = 'true';
+                    } else {
+                        // Regular counting bead
+                        bead.classList.add('counting');
+                        bead.style.left = `${x - 8}px`;
+                        bead.style.top = `${y - 8}px`;
+                        bead.dataset.index = countingIndex;
+                        this.countingBeads.push(bead);
+                        countingIndex++;
                     }
-
-                    bead.style.left = `${x - 10}px`;
-                    bead.style.top = `${y - 10}px`;
-                    bead.dataset.index = i;
 
                     container.appendChild(bead);
                     this.beads.push(bead);
@@ -448,29 +399,24 @@
             }
 
             setupEventListeners() {
-                // Click anywhere on the misbaha container
                 document.getElementById('misbahaContainer').addEventListener('click', (e) => {
                     this.handleBeadClick(e);
                 });
 
-                // Reset button
                 document.getElementById('resetBtn').addEventListener('click', () => {
                     this.resetCounter();
                 });
 
-                // Sound toggle
                 document.getElementById('soundToggle').addEventListener('click', () => {
                     this.toggleSound();
                 });
 
-                // Sibha type selection
                 document.querySelectorAll('.sibha-option').forEach(option => {
                     option.addEventListener('click', () => {
                         this.changeSibhaType(option.dataset.type);
                     });
                 });
 
-                // Keyboard support
                 document.addEventListener('keydown', (e) => {
                     if (e.code === 'Space') {
                         e.preventDefault();
@@ -483,25 +429,28 @@
                 this.count++;
                 this.updateCounter();
                 this.playSound();
-                this.createParticles(e);
                 this.animateBeads();
                 this.updateProgress();
+                
+                if (e && e.clientX && e.clientY) {
+                    this.createParticles(e);
+                }
             }
 
             animateBeads() {
-                // Animate a random bead or the next bead in sequence
-                const beadIndex = this.count % this.beads.length;
-                const bead = this.beads[beadIndex];
+                // Fix: Use (count - 1) so first bead (index 0) is highlighted on count 1
+                const beadIndex = (this.count - 1) % this.countingBeads.length;
+                const bead = this.countingBeads[beadIndex];
                 
-                bead.classList.add('active');
-                setTimeout(() => {
-                    bead.classList.remove('active');
-                }, 600);
+                if (bead) {
+                    bead.classList.add('active');
+                    setTimeout(() => {
+                        bead.classList.remove('active');
+                    }, 600);
+                }
             }
 
             createParticles(e) {
-                if (!e) return;
-                
                 const rect = document.getElementById('misbahaContainer').getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
@@ -511,17 +460,13 @@
                     particle.className = 'particle';
                     particle.style.left = `${x}px`;
                     particle.style.top = `${y}px`;
-                    
-                    // Random direction
-                    const angle = (Math.PI * 2 * i) / 6;
-                    const distance = 30 + Math.random() * 20;
-                    particle.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
-                    particle.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
 
                     document.getElementById('misbahaContainer').appendChild(particle);
 
                     setTimeout(() => {
-                        particle.remove();
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
                     }, 1000);
                 }
             }
@@ -530,7 +475,6 @@
                 if (!this.soundEnabled || !this.audioContext) return;
 
                 try {
-                    // Resume audio context if suspended
                     if (this.audioContext.state === 'suspended') {
                         this.audioContext.resume();
                     }
@@ -541,7 +485,6 @@
                     oscillator.connect(gainNode);
                     gainNode.connect(this.audioContext.destination);
 
-                    // Quick click sound - higher frequency, shorter duration
                     oscillator.frequency.setValueAtTime(1200, this.audioContext.currentTime);
                     oscillator.frequency.exponentialRampToValueAtTime(800, this.audioContext.currentTime + 0.02);
 
@@ -552,9 +495,6 @@
                     oscillator.stop(this.audioContext.currentTime + 0.05);
                 } catch (error) {
                     console.log('Audio error:', error);
-                    // Reinitialize audio context if there's an error
-                    this.audioContext = null;
-                    this.initAudio();
                 }
             }
 
@@ -564,7 +504,7 @@
 
             updateProgress() {
                 const circle = document.getElementById('progressCircle');
-                const circumference = 2 * Math.PI * 36;
+                const circumference = 2 * Math.PI * 30;
                 const progress = (this.count % 33) / 33;
                 const offset = circumference - (progress * circumference);
                 circle.style.strokeDashoffset = offset;
@@ -575,23 +515,19 @@
                 this.updateCounter();
                 this.updateProgress();
                 
-                // Animate all beads
-                this.beads.forEach((bead, index) => {
+                // Animate only the counting beads, not separators
+                this.countingBeads.forEach((bead, index) => {
                     setTimeout(() => {
                         bead.classList.add('active');
                         setTimeout(() => {
                             bead.classList.remove('active');
                         }, 100);
-                    }, index * 20);
+                    }, index * 15);
                 });
             }
 
             toggleSound() {
                 this.soundEnabled = !this.soundEnabled;
-                this.updateSoundIcon();
-            }
-
-            updateSoundIcon() {
                 const btn = document.getElementById('soundToggle');
                 btn.textContent = this.soundEnabled ? '🔊' : '🔇';
             }
@@ -612,7 +548,6 @@
             }
         }
 
-        // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             new MisbahaApp();
         });
